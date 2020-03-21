@@ -1,9 +1,12 @@
 var express = require('express');
-var router = express.Router();
+var router = express.Router()
+var authRouter = require('./authService')
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.send('index');
-});
+router.use((req, res, next) => {
+    console.log("Called: ", req.path)
+    next()
+})
+
+router.use(authRouter)
 
 module.exports = router;
