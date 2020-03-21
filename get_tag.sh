@@ -1,1 +1,0 @@
-export DOCKER_TAG=$(node -p "require('./package.json').name + ':' + require('./package.json').version")
