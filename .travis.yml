@@ -11,11 +11,11 @@ jobs:
   include:
     - stage: build
       script:
-        - source get_tag.sh
-        - docker build -t $DOCKER_TAG .
+        - docker build -t api-gateway .
     - stage: docker push
       if: branch = master
       script:
         - source get_tag.sh
-        - docker login -u brunoribca -p $DOCKER_HUB_PASS
+        - docker tag api-gateway brunoribca/$DOCKER_TAG
+        - docker login -u brunoribca -p "$DOCKER_HUB_PASS"
         - docker push docker.io/brunoribca/$DOCKER_TAG
