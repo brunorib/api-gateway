@@ -12,4 +12,5 @@ env:
 script:
   - source get_tag.sh
   - docker build -t $DOCKER_TAG .
+  - docker login -u="brunoribca" -p="$DOCKER_HUB_PASS"
   - docker push docker.io/brunoribca/$DOCKER_TAG
