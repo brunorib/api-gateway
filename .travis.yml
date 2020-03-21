@@ -1,4 +1,3 @@
-sudo: required
 language: node_js
 node_js:
   - 7
@@ -17,5 +16,6 @@ jobs:
     - stage: docker push
       if: branch = master
       script:
-        - echo "$DOCKER_HUB_PASS" | docker login -u brunoribca --password-stdin
+        - source get_tag.sh
+        - docker login -u brunoribca -p $DOCKER_HUB_PASS
         - docker push docker.io/brunoribca/$DOCKER_TAG
