@@ -16,5 +16,6 @@ jobs:
         - docker build -t $DOCKER_TAG .
     - stage: docker push
       if: branch = master
+      script:
         - echo "$DOCKER_HUB_PASS" | docker login -u brunoribca --password-stdin
         - docker push docker.io/brunoribca/$DOCKER_TAG
