@@ -14,5 +14,7 @@ jobs:
       script:
         - source get_tag.sh
         - docker build -t $DOCKER_TAG .
+    - stage: docker push
+      if: branch = master
         - echo "$DOCKER_HUB_PASS" | docker login -u=brunoribca --password-stdin
         - docker push docker.io/brunoribca/$DOCKER_TAG
