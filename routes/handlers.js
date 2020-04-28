@@ -3,6 +3,7 @@ let postHandler = function (api, req, res) {
         console.log("Hello")
         res.status(resp.status).send(resp.data)
     }).catch((error) => {
+        console.log(error)
         res.status(error.response.status).send(error.response.data);
     });
 };
