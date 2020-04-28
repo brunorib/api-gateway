@@ -2,15 +2,15 @@ var express = require('express');
 var router = express.Router()
 const apiAdapter = require('./apiAdapter')
 const { postHandler, putHandler, getHandler } = require('./handlers')
+const { checkToken } = require('../middleware/jwt');
 
-const BASE_URL = 'http://localhost:4567'
-const api = apiAdapter(BASE_URL)
+const api = apiAdapter(process.env.AUTH_BASE_URL)
 
 // Specific user
-router.get('/users/:id', (req, res) => {
+router.get('/users/:id', checkToken, (req, res) => {
   return getHandler(api, req, res)
 })
-router.put('/users/:id', (req, res) => {
+router.put('/users/:id', checkToken, (req, res) => {
   return putHandler(api, req, res)
 })
 
