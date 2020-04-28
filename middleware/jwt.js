@@ -2,12 +2,12 @@ let jwt = require('jsonwebtoken');
 
 let checkToken = (req, res, next) => {
   let token = req.headers['x-access-token'] || req.headers['authorization']; // Express headers are auto converted to lowercase
-  if (token.startsWith('Bearer ')) {
-    // Remove Bearer from string
-    token = token.slice(7, token.length);
-  }
 
-  if (token) {
+  if (checkExists(token)) {
+    if (token.startsWith('Bearer ')) {
+      // Remove Bearer from string
+      token = token.slice(7, token.length);
+    }
     // verify a token asymmetric
     var cert = fs.readFileSync(process.env.AUTH_PEM_PATH);  // get public key
     jwt.verify(token, cert, (err, decoded) => {
@@ -36,12 +36,16 @@ let checkToken = (req, res, next) => {
 };
 
 function checkSameIfExists(reqval, jwtval) {
-    if (typeof reqval !== 'undefined' && reqval && reqval == jwtval) {
+    if (checkExists(reqval) && reqval == jwtval) {
         return true;
-    } else if (!(typeof reqval !== 'undefined' && reqval)) {
+    } else if (!checkExists(reqval)) {
         return true;
     }
     return false;
+}
+
+function checkExists(variable) {
+  return typeof variable !== 'undefined' && variable
 }
 
 module.exports = {
