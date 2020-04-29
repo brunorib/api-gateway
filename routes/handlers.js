@@ -8,8 +8,10 @@ let postHandler = function (api, req, res) {
 
 let getHandler = function (api, req, res) {
     return api.get(req.path).then(resp => {
+        console.log(resp)
         res.status(resp.status).send(resp.data)
     }).catch((error) => {
+        console.log(error)
         res.status(error.response.status).send(error.response.data);
     });
 };
