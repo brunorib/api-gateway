@@ -8,6 +8,7 @@ const api = apiAdapter(process.env.AUTH_BASE_URL)
 
 // Specific user
 router.get('/users/:id', checkToken, (req, res) => {
+  console.log("Hey");
   return getHandler(api, req, res)
 })
 router.put('/users/:id', checkToken, (req, res) => {
