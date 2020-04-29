@@ -19,7 +19,6 @@ router.post('/login', (req, res) => {
   return postHandler(api, req, res)
 })
 router.post('/users', (req, res) => {
-  console.log(process.env.AUTH_BASE_URL)
   return postHandler(api, req, res)
 })
 
