@@ -3,16 +3,14 @@ let fs  = require('fs');
 
 let checkToken = (req, res, next) => {
   let token = req.headers['x-access-token'] || req.headers['authorization']; // Express headers are auto converted to lowercase
-  console.log("not verified");
+  
   if (checkExists(token)) {
     if (token.startsWith('Bearer ')) {
       // Remove Bearer from string
       token = token.slice(7, token.length);
     }
     // verify a token asymmetric
-    console.log(process.env.AUTH_PEM_PATH);
     let cert = fs.readFileSync(process.env.AUTH_PEM_PATH, 'utf8');  // get public key
-    console.log("hey");
     jwt.verify(token, cert, (err, decoded) => {
       if (err) {
         return res.json({
@@ -27,7 +25,6 @@ let checkToken = (req, res, next) => {
                 message: 'Token not valid for this user'
             });
         }
-        console.log("verified");
         req.decoded = decoded;
         next();
       }

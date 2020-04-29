@@ -90,5 +90,4 @@ function onListening() {
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   console.log('Listening');
-  console.log(process.env.AUTH_BASE_URL)
 }
