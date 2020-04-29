@@ -1,28 +1,33 @@
 let jwt = require('jsonwebtoken');
+let fs  = require('fs');
 
 let checkToken = (req, res, next) => {
   let token = req.headers['x-access-token'] || req.headers['authorization']; // Express headers are auto converted to lowercase
-
+  console.log("not verified");
   if (checkExists(token)) {
     if (token.startsWith('Bearer ')) {
       // Remove Bearer from string
       token = token.slice(7, token.length);
     }
     // verify a token asymmetric
-    var cert = fs.readFileSync(process.env.AUTH_PEM_PATH);  // get public key
+    console.log(process.env.AUTH_PEM_PATH);
+    let cert = fs.readFileSync(process.env.AUTH_PEM_PATH, 'utf8');  // get public key
+    console.log("hey");
     jwt.verify(token, cert, (err, decoded) => {
       if (err) {
         return res.json({
           success: false,
-          message: 'Token is not valid'
+          message: err.message
         });
       } else {
+        
         if (!checkSameIfExists(req.params.id, decoded.iss) || !checkSameIfExists(req.body.user_id, decoded.iss)) {
             return res.json({
                 success: false,
                 message: 'Token not valid for this user'
             });
         }
+        console.log("verified");
         req.decoded = decoded;
         next();
       }
